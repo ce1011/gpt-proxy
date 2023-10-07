@@ -1,7 +1,7 @@
 import express, { Express, Request, Response } from 'express';
 import {createProxyMiddleware} from "http-proxy-middleware";
 import dotenv from 'dotenv';
-import SocksProxyAgent from 'socks-proxy-agent';
+import {SocksProxyAgent} from 'socks-proxy-agent';
 
 dotenv.config();
 
@@ -10,7 +10,7 @@ const port = process.env.PORT;
 const WARP_PROXY = process.env.WARP_PROXY;
 const CHATGPT_URL = "https://chat.openai.com/"
 // Create a SOCKS5 proxy agent
-const SockAgent = new SocksProxyAgent.SocksProxyAgent(WARP_PROXY!);
+const SockAgent = new SocksProxyAgent(WARP_PROXY!);
 app.get('/', (req: Request, res: Response) => {
     res.send('GPT Proxy');
 });
