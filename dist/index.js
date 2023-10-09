@@ -27,3 +27,4 @@ app.use('/chat', (0, http_proxy_middleware_1.createProxyMiddleware)({
 app.listen(port, () => {
     console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
 });
+//# sourceMappingURL=index.js.map
