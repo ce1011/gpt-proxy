@@ -13,6 +13,12 @@ const port = process.env.PORT;
 const CHATGPT_URL = "https://chat.openai.com/";
 // Create a SOCKS5 proxy agent
 //const SockAgent = new SocksProxyAgent(WARP_PROXY!);
+// Middleware to modify CSP headers
+function modifyCSPHeaders(proxyRes, req, res) {
+    if (proxyRes.headers['content-security-policy']) {
+        proxyRes.headers['content-security-policy'] = proxyRes.headers['content-security-policy'].replace("'self'", "'self' 'unsafe-inline'");
+    }
+}
 app.get('/', (req, res) => {
     res.send('GPT Proxy');
 });
@@ -22,7 +28,8 @@ app.use('/chat', (0, http_proxy_middleware_1.createProxyMiddleware)({
     // agent: SockAgent,
     pathRewrite: {
         [`^/chat`]: '',
-    }
+    },
+    onProxyRes: modifyCSPHeaders,
 }));
 app.listen(port, () => {
     console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
